@@ -22,8 +22,8 @@ class Restaurante:
 
     # lista_restaurantes é um método de classe que lista todos os restaurantes
     @classmethod # Decorador de classe, permite acessar o método sem instanciar a classe
-    def listar_restaurantes(cls):
-        print(f"{"Nome do Restaurante".ljust(25)} | {"Categoria".ljust(25)} | {"Avaliacao".ljust(25)}| {"Status"}")
+    def listar_restaurantes(cls): 
+        print(f"{"Nome do Restaurante".ljust(25)} | {"Categoria".ljust(25)} | {"Avaliacao".ljust(25)} | {"Status"}")
         for restaurante in cls.lista_restaurantes:
             print(f"{restaurante._nome.ljust(25)} | {restaurante._categoria.ljust(25)} | {str(restaurante.media_avaliacoes).ljust(25)} | {restaurante.ativo}")
 
@@ -41,14 +41,15 @@ class Restaurante:
 
     # Recebe as avaliacoes dos restaurantes
     def receber_avaliacao(self, cliente, nota):
-        avaliacao = Avaliacao(cliente, nota) # Instanciamento do objeto Avaliacao (cliente, nota)
-        self._avaliacao.append(avaliacao) # Inseri o objeto na lista
+        if nota <= 5 and nota >= 0: 
+            avaliacao = Avaliacao(cliente, nota) # Instanciamento do objeto Avaliacao (cliente, nota)
+            self._avaliacao.append(avaliacao) # Inseri o objeto na lista
 
 
     @property
     def media_avaliacoes(self):
         if not self._avaliacao: # caso nao tenha nenhuma avaliacao do restaurante retorna o valor 0
-            return 0
+            return "-"
         
         # Soma todas as notas da lista self._avaliacao com o metodo sum
         soma_das_notas = sum(avaliacao._nota for avaliacao in self._avaliacao)
