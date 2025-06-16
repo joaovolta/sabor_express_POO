@@ -1,4 +1,5 @@
 from Modelos.avaliacao import Avaliacao
+from Modelos.Cardapio.item_cardapio import ItemCardapio
 
 class Restaurante:
     # self é a referência ao objeto que está sendo criado 
@@ -12,6 +13,7 @@ class Restaurante:
         self._categoria = categoria.upper() # Converte a categoria para maiúsculas
         self._ativo = False 
         self._avaliacao = [] # Quando criamos um restaurante ele ja inicia ele com uma lista de avaliacoes
+        self._cardapio = [] # Quando criamos um restaurante ele ja inicia ele com uma lista de cardapio
         Restaurante.lista_restaurantes.append(self)
 
 
@@ -56,6 +58,38 @@ class Restaurante:
         qntd_de_notas = len(self._avaliacao) # Recebe a quantidade de objetos/notas inseridas na lista
         media = round(soma_das_notas / qntd_de_notas, 1) # Realiza a conta da media com o metodo round para deixar apenas com uma casa decimal
         return media
+    
+    
+    # # Adiciona o objeto bebida na lista cardapio
+    # def adicionar_bebida_no_cardapio (self, bebida):
+    #     self._cardapio.append(bebida)
+
+    
+    # # Adiciona o objeto prato na lista cardapio
+    # def adicionar_prato_no_cardapio (self, prato):
+    #     self._prato.append(prato)
+
+    # Metodo que adiciona itens no geral em vez de criar um metodo para cada tipo
+    def adicionar_no_cardapio (self, item):
+        # Validacao
+        # isinstance verifica se "item" e uma instancia da class ItemCardapio
+        if isinstance(item, ItemCardapio):
+            self._cardapio.append(item) # Se for uma True, adiciona o item na lista cardapio
+
+
+    @property
+    def exibir_cardapio (self):
+        print(f"Cardapio do restaurante {self._nome}\n")
+        # Enumerate e usado para ajudar na visualizacao, retornando o indice e o valor correspondente
+        for i,item in enumerate(self._cardapio, start=1):
+            # hasattr ou "tem atributo..." e usado para verificar se o objeto possui um atributo especifico, assim personalizando a mensagem
+            if hasattr(item, "_descricao"): # Se ele possuir o atributo "_descricao" ele e um prato
+                mensagem_prato = f"{i}. Nome: {item._nome} | Preco: R${item._preco} | Descricao: {item._descricao}"
+                print(mensagem_prato)
+            else:
+                mensagem_bebida = f"{i}. Nome: {item._nome} | Preco: R${item._preco} | Tamanho: {item._tamanho}"
+                print(mensagem_bebida)
+            
 
 # TESTES 
 
